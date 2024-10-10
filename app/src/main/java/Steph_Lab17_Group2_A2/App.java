@@ -9,6 +9,7 @@ public class App {
     private static Map<String, String> users = new HashMap<>();
     
     public static void main(String[] args) {
+        System.out.println(Encryption.doMD5Hashing("1234"));
         Scanner scanner = new Scanner(System.in);
 
         // Add a default user for testing login
