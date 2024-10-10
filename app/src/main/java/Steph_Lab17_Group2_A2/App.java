@@ -35,7 +35,6 @@ public class App {
 
                 if (users.containsKey(username) && users.get(username).equals(password)) {
                     System.out.println("Login successful! Welcome " + username);
-                    // You can add further functionality here like opening the main menu
                 } else {
                     System.out.println("Invalid username or password.");
                 }
@@ -58,8 +57,7 @@ public class App {
             case 3:
                 // Guest case
                 System.out.println("Proceeding as Guest. Limited access granted.");
-                // You can provide restricted access features for guests here
-                // For example, they may be able to browse but not upload or download files.
+                //provide restricted access features for guests here
                 break;
 
             default:
