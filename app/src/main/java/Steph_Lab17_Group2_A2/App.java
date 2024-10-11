@@ -35,6 +35,7 @@ public class App {
 
                 if (users.containsKey(username) && users.get(username).equals(password)) {
                     System.out.println("Login successful! Welcome " + username);
+                    manageScrolls();
                 } else {
                     System.out.println("Invalid username or password.");
                 }
@@ -57,6 +58,7 @@ public class App {
             case 3:
                 // Guest case
                 System.out.println("Proceeding as Guest. Limited access granted.");
+                manageScrolls();
                 //provide restricted access features for guests here
                 break;
 
@@ -66,5 +68,11 @@ public class App {
         }
 
         scanner.close();
+    }
+
+    // Method to call ScrollManager for managing scrolls
+    private static void manageScrolls() {
+        ScrollManager scrollManager = new ScrollManager();
+        scrollManager.scrollMenu();  // Call the scroll management menu
     }
 }

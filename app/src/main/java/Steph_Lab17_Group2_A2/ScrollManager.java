@@ -139,4 +139,48 @@ public class ScrollManager {
             System.out.println(scroll);
         }
     }
+
+    // Method to display the scroll management menu
+    public void scrollMenu() {
+        while (true) {
+            System.out.println("\n--- Scroll Management Menu ---");
+            System.out.println("1. Add New Scroll");
+            System.out.println("2. Edit Existing Scroll");
+            System.out.println("3. Remove Scroll");
+            System.out.println("4. List All Scrolls");
+            System.out.println("5. Exit");
+            System.out.print("Please select an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character after nextInt()
+
+            switch (choice) {
+                case 1:
+                    // Add new scroll
+                    addScroll();
+
+                    // test adding new file: app/bin/main/Steph_Lab17_Group2_A2/test.bin
+                    break;
+                case 2:
+                    // Edit existing scroll
+                    editScroll();
+                    break;
+                case 3:
+                    // Remove a scroll
+                    removeScroll();
+                    break;
+                case 4:
+                    // List all scrolls
+                    listScrolls();
+                    break;
+                case 5:
+                    // Exit the menu
+                    System.out.println("Exiting Scroll Management.");
+                    return; // Exit the method to go back to the main program
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+            }
+        }
+    }
+
 }
