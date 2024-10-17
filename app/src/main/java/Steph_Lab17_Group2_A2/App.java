@@ -118,7 +118,8 @@ public class App {
             System.out.println("6. View Scrolls"); // Uses ScrollManager
             System.out.println("7. Add Scrolls"); // Uses ScrollManager
             System.out.println("8. Remove Scrolls"); // Uses ScrollManager
-            System.out.println("9: Exit");
+            System.out.println("9. Edit Scrolls"); // Uses ScrollManager
+            System.out.println("10: Exit");
 
             Scanner scanner = new Scanner(System.in);
 
@@ -140,7 +141,13 @@ public class App {
                     // Remove a scroll
                     scrollManager.removeScroll();
                     break;
+
                 case 9:
+                    // Update a scroll
+                    scrollManager.editScroll();
+                    break;
+
+                case 10:
                     // Exit the menu
                     System.out.println("Exiting Admin Management.");
                     return; // Exit the method to go back to the main program

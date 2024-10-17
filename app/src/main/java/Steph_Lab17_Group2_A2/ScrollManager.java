@@ -73,47 +73,47 @@ public class ScrollManager {
         System.out.println("Scroll added successfully.");
     }
 
-    // // Method to edit a scroll
-    // public void editScroll() {
-    //     System.out.println("Enter Scroll ID to edit:");
-    //     String id = scanner.nextLine();
+    // Method to edit a scroll
+    public void editScroll() {
+        System.out.println("Enter Scroll ID to edit:");
+        String id = scanner.nextLine();
 
-    //     Scroll scroll = scrolls.get(id);
-    //     if (scroll == null) {
-    //         System.out.println("Scroll not found.");
-    //         return;
-    //     }
+        Scroll scroll = scrolls.get(id);
+        if (scroll == null) {
+            System.out.println("Scroll not found.");
+            return;
+        }
 
-    //     System.out.println("Editing Scroll: " + scroll.getName());
-    //     System.out.println("1. Edit Name");
-    //     System.out.println("2. Edit Binary File");
-    //     int choice = scanner.nextInt();
-    //     scanner.nextLine(); // Consume newline
+        System.out.println("Editing Scroll: " + scroll.getName());
+        System.out.println("1. Edit Name");
+        System.out.println("2. Edit Binary File");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
 
-    //     switch (choice) {
-    //         case 1:
-    //             System.out.println("Enter new Scroll Name:");
-    //             String newName = scanner.nextLine();
-    //             scroll.setName(newName);
-    //             System.out.println("Scroll name updated.");
-    //             break;
+        switch (choice) {
+            case 1:
+                System.out.println("Enter new Scroll Name:");
+                String newName = scanner.nextLine();
+                scroll.setName(newName);
+                System.out.println("Scroll name updated.");
+                break;
 
-    //         case 2:
-    //             System.out.println("Enter the path of the new binary file:");
-    //             String newFilePath = scanner.nextLine();
-    //             File newBinaryFile = new File(newFilePath);
-    //             if (!newBinaryFile.exists()) {
-    //                 System.out.println("File not found. Please try again.");
-    //             } else {
-    //                 scroll.setBinaryFile(newBinaryFile);
-    //                 System.out.println("Binary file updated.");
-    //             }
-    //             break;
+            case 2:
+                System.out.println("Enter the path of the new binary file:");
+                String newFilePath = scanner.nextLine();
+                File newBinaryFile = new File(newFilePath);
+                if (!newBinaryFile.exists()) {
+                    System.out.println("File not found. Please try again.");
+                } else {
+                    scroll.setBinaryFile(newBinaryFile);
+                    System.out.println("Binary file updated.");
+                }
+                break;
 
-    //         default:
-    //             System.out.println("Invalid choice.");
-    //     }
-    // }
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }
 
     // Method to remove a scroll
     public void removeScroll() {
