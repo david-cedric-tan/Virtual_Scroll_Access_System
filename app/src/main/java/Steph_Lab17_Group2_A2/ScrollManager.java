@@ -73,47 +73,47 @@ public class ScrollManager {
         System.out.println("Scroll added successfully.");
     }
 
-    // Method to edit a scroll
-    public void editScroll() {
-        System.out.println("Enter Scroll ID to edit:");
-        String id = scanner.nextLine();
+    // // Method to edit a scroll
+    // public void editScroll() {
+    //     System.out.println("Enter Scroll ID to edit:");
+    //     String id = scanner.nextLine();
 
-        Scroll scroll = scrolls.get(id);
-        if (scroll == null) {
-            System.out.println("Scroll not found.");
-            return;
-        }
+    //     Scroll scroll = scrolls.get(id);
+    //     if (scroll == null) {
+    //         System.out.println("Scroll not found.");
+    //         return;
+    //     }
 
-        System.out.println("Editing Scroll: " + scroll.getName());
-        System.out.println("1. Edit Name");
-        System.out.println("2. Edit Binary File");
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+    //     System.out.println("Editing Scroll: " + scroll.getName());
+    //     System.out.println("1. Edit Name");
+    //     System.out.println("2. Edit Binary File");
+    //     int choice = scanner.nextInt();
+    //     scanner.nextLine(); // Consume newline
 
-        switch (choice) {
-            case 1:
-                System.out.println("Enter new Scroll Name:");
-                String newName = scanner.nextLine();
-                scroll.setName(newName);
-                System.out.println("Scroll name updated.");
-                break;
+    //     switch (choice) {
+    //         case 1:
+    //             System.out.println("Enter new Scroll Name:");
+    //             String newName = scanner.nextLine();
+    //             scroll.setName(newName);
+    //             System.out.println("Scroll name updated.");
+    //             break;
 
-            case 2:
-                System.out.println("Enter the path of the new binary file:");
-                String newFilePath = scanner.nextLine();
-                File newBinaryFile = new File(newFilePath);
-                if (!newBinaryFile.exists()) {
-                    System.out.println("File not found. Please try again.");
-                } else {
-                    scroll.setBinaryFile(newBinaryFile);
-                    System.out.println("Binary file updated.");
-                }
-                break;
+    //         case 2:
+    //             System.out.println("Enter the path of the new binary file:");
+    //             String newFilePath = scanner.nextLine();
+    //             File newBinaryFile = new File(newFilePath);
+    //             if (!newBinaryFile.exists()) {
+    //                 System.out.println("File not found. Please try again.");
+    //             } else {
+    //                 scroll.setBinaryFile(newBinaryFile);
+    //                 System.out.println("Binary file updated.");
+    //             }
+    //             break;
 
-            default:
-                System.out.println("Invalid choice.");
-        }
-    }
+    //         default:
+    //             System.out.println("Invalid choice.");
+    //     }
+    // }
 
     // Method to remove a scroll
     public void removeScroll() {
@@ -129,6 +129,7 @@ public class ScrollManager {
 
     // Method to list all scrolls
     public void listScrolls() {
+        System.out.println(scrolls);
         if (scrolls.isEmpty()) {
             System.out.println("No scrolls available.");
             return;
@@ -140,47 +141,47 @@ public class ScrollManager {
         }
     }
 
-    // Method to display the scroll management menu
-    public void scrollMenu() {
-        while (true) {
-            System.out.println("\n--- Scroll Management Menu ---");
-            System.out.println("1. Add New Scroll");
-            System.out.println("2. Edit Existing Scroll");
-            System.out.println("3. Remove Scroll");
-            System.out.println("4. List All Scrolls");
-            System.out.println("5. Exit");
-            System.out.print("Please select an option: ");
+    // // Method to display the scroll management menu
+    // public void scrollMenu() {
+    //     while (true) {
+    //         System.out.println("\n--- Scroll Management Menu ---");
+    //         System.out.println("1. Add New Scroll");
+    //         System.out.println("2. Edit Existing Scroll");
+    //         System.out.println("3. Remove Scroll");
+    //         System.out.println("4. List All Scrolls");
+    //         System.out.println("5. Exit");
+    //         System.out.print("Please select an option: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character after nextInt()
+    //         int choice = scanner.nextInt();
+    //         scanner.nextLine(); // Consume the newline character after nextInt()
 
-            switch (choice) {
-                case 1:
-                    // Add new scroll
-                    addScroll();
+    //         switch (choice) {
+    //             case 1:
+    //                 // Add new scroll
+    //                 addScroll();
 
-                    // test adding new file: app/bin/main/Steph_Lab17_Group2_A2/test.bin
-                    break;
-                case 2:
-                    // Edit existing scroll
-                    editScroll();
-                    break;
-                case 3:
-                    // Remove a scroll
-                    removeScroll();
-                    break;
-                case 4:
-                    // List all scrolls
-                    listScrolls();
-                    break;
-                case 5:
-                    // Exit the menu
-                    System.out.println("Exiting Scroll Management.");
-                    return; // Exit the method to go back to the main program
-                default:
-                    System.out.println("Invalid choice. Please select a valid option.");
-            }
-        }
-    }
+    //                 // test adding new file: app/bin/main/Steph_Lab17_Group2_A2/test.bin
+    //                 break;
+    //             case 2:
+    //                 // Edit existing scroll
+    //                 editScroll();
+    //                 break;
+    //             case 3:
+    //                 // Remove a scroll
+    //                 removeScroll();
+    //                 break;
+    //             case 4:
+    //                 // List all scrolls
+    //                 listScrolls();
+    //                 break;
+    //             case 5:
+    //                 // Exit the menu
+    //                 System.out.println("Exiting Scroll Management.");
+    //                 return; // Exit the method to go back to the main program
+    //             default:
+    //                 System.out.println("Invalid choice. Please select a valid option.");
+    //         }
+    //     }
+    // }
 
 }
