@@ -6,11 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class App {
     private static final String USERS_FILE = "users.txt"; // User credentials
     private static final String ADMIN_USERNAME = "admin"; // Admin credentials
     private static final String ADMIN_PASSWORD_HASHED = Encryption.doMD5Hashing("admin");
+    private static ScrollManager scrollManager = new ScrollManager(); // Manages Scroll functions
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -26,7 +26,7 @@ public class App {
             System.out.println("4. Exit");
 
             int loginChoice = scanner.nextInt();
-            scanner.nextLine(); 
+            scanner.nextLine();
 
             switch (loginChoice) {
                 case 1:
@@ -38,7 +38,7 @@ public class App {
                         System.out.println("Enter password:");
                         String password = scanner.nextLine();
 
-                        //Hash
+                        // Hash
                         String hashedPassword = Encryption.doMD5Hashing(password);
 
                         if (validateCredentials(username, hashedPassword)) {
@@ -51,7 +51,7 @@ public class App {
                             }
                             loginSuccess = true; // Exit the login loop upon success
                             isRunning = false;
-                        }  else {
+                        } else {
                             System.out.println("Invalid username or password.");
                             System.out.println("Would you like to try again or go back to the main menu?");
                             System.out.println("1. Try again");
@@ -60,14 +60,12 @@ public class App {
                             int retryChoice = scanner.nextInt();
                             scanner.nextLine();
                             if (retryChoice == 2) {
-                                break; //go back to main menu
+                                break; // go back to main menu
                             }
                         }
                     }
-                    
-                    //Logged in
 
-
+                    // Logged in
 
                     break;
 
@@ -108,23 +106,52 @@ public class App {
         scanner.close();
     }
 
-
     // Admin Portal
     private static void adminPortal() {
+        while (true) {
             System.out.println("====Admin Portal====");
             System.out.println("1. View User Profiles");
             System.out.println("2. Add User Profiles");
             System.out.println("3. Delete User Profiles");
             System.out.println("4. Update User Profiles");
             System.out.println("5. View Stats");
-            System.out.println("6. View Scrolls");
-            System.out.println("7. Add Scrolls");
-            System.out.println("8. Remove Scrolls");
+            System.out.println("6. View Scrolls"); // Uses ScrollManager
+            System.out.println("7. Add Scrolls"); // Uses ScrollManager
+            System.out.println("8. Remove Scrolls"); // Uses ScrollManager
+            System.out.println("9: Exit");
+
+            Scanner scanner = new Scanner(System.in);
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character after nextInt()
+
+            switch (choice) {
+                case 6:
+                    // List all scrolls
+                    scrollManager.listScrolls();
+                    break;
+                case 7:
+                    // Add new scroll
+                    scrollManager.addScroll();
+                    
+                    // test adding new file: app/bin/main/Steph_Lab17_Group2_A2/scroll.bin
+                    break;
+                case 8:
+                    // Remove a scroll
+                    scrollManager.removeScroll();
+                    break;
+                case 9:
+                    // Exit the menu
+                    System.out.println("Exiting Admin Management.");
+                    return; // Exit the method to go back to the main program
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+            }
+        }
     }
 
-
     // User Portal
-     private static void userPortal(String username) {
+    private static void userPortal(String username) {
         System.out.println("====User Portal====");
         System.out.println("1. Update User Profiles");
         System.out.println("2. View Scrolls");
@@ -136,13 +163,12 @@ public class App {
         // Guest-specific actions go here
     }
 
-
-     // Check if the username is the admin and if the password matches the admin's hashed password
+    // Check if the username is the admin and if the password matches the admin's
+    // hashed password
     private static boolean isAdmin(String username, String hashedPassword) {
         return ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD_HASHED.equals(hashedPassword);
     }
 
-    
     // Check if a username already exists in the file
     private static boolean isUsernameTaken(String username) {
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
@@ -179,15 +205,9 @@ public class App {
     private static void saveNewUser(String username, String hashedPassword) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FILE, true))) {
             writer.write(username + ":" + hashedPassword);
-            writer.newLine(); 
+            writer.newLine();
         } catch (IOException e) {
             System.out.println("Error writing to user file.");
         }
-    }
-
-    // Method to call ScrollManager for managing scrolls
-    private static void manageScrolls() {
-        ScrollManager scrollManager = new ScrollManager();
-        scrollManager.scrollMenu();  // Call the scroll management menu
     }
 }
