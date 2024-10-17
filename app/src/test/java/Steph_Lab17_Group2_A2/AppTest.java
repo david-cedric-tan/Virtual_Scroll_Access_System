@@ -10,15 +10,14 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//class AppTest {
-//        @Test
-//        void testSuccessfulUserLogin() {
-//            String username = "user1";
-//            String password = "password123";
-//            String hashedPassword = Encryption.doMD5Hashing(password);
+class AppTest {
+//    @Test
+//    void testSuccessfulAdminLogin() {
+//        String username = "admin";
+//        String password = "admin";
+//        String hashedPassword = Encryption.doMD5Hashing(password);
 //
-//            assertTrue(App.validateCredentials(username, hashedPassword));
-//            assertFalse(App.isAdmin(username, hashedPassword));
-//        }
-//
-//}
+//        assertTrue(App.validateCredentials(username, hashedPassword));
+//        assertTrue(App.isAdmin(username, hashedPassword));
+
+}

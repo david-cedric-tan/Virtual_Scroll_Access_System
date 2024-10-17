@@ -16,5 +16,21 @@ public class EncryptionTest {
         assertEquals(expectedHash, actualHash);
     }
 
+    @Test
+    void testAdminHashing() {
+        String password = "admin";
+        String expectedHash = Encryption.doMD5Hashing("admin");
+
+        assertEquals(expectedHash, Encryption.doMD5Hashing(password));
+    }
+
+    @Test
+    void testNullPasswordHashing() {
+        String emptyPassword = "";
+        String expectedHash = Encryption.doMD5Hashing(emptyPassword);
+
+        assertNotNull(expectedHash);
+        assertEquals(Encryption.doMD5Hashing(emptyPassword), expectedHash);
+    }
 
 }
