@@ -127,19 +127,26 @@ public class ScrollManager {
         }
     }
 
-    // Method to list all scrolls
+    // Method to list all scrolls in a table format
     public void listScrolls() {
-        System.out.println(scrolls);
         if (scrolls.isEmpty()) {
             System.out.println("No scrolls available.");
             return;
         }
 
-        System.out.println("Available Scrolls:");
+        // Header for the table
+        System.out.printf("%-10s %-20s %-30s%n", "Scroll ID", "Scroll Name", "Binary File Path");
+        System.out.println("--------------------------------------------------------------");
+
+        // Loop through each scroll and display details
         for (Scroll scroll : scrolls.values()) {
-            System.out.println(scroll);
+            System.out.printf("%-10s %-20s %-30s%n", 
+                scroll.getId(), 
+                scroll.getName(), 
+                scroll.getBinaryFile().getPath());
         }
     }
+
 
     // // Method to display the scroll management menu
     // public void scrollMenu() {
@@ -185,3 +192,6 @@ public class ScrollManager {
     // }
 
 }
+
+
+    
