@@ -8,7 +8,9 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
+    id 'java'
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -22,18 +24,33 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.json:json:20210307'
+    testImplementation 'org.mockito:mockito-core:4.0.0'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'Steph_Lab17_Group2_A2.App'
+    mainClassName = 'Steph_Lab17_Group2_A2.App'
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
-}
+// tasks.named('test') {
+//     // Use JUnit Platform for unit tests.
+//     useJUnitPlatform()
+// }
 
 run {
     standardInput = System.in
+}
+test {
+    useJUnitPlatform()
+    test.finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+jacoco {
+    toolVersion = "0.8.10"
 }
