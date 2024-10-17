@@ -14,7 +14,7 @@ public class Encryption {
             StringBuilder sb = new StringBuilder();
 
             for (byte b: resultByteArray){
-                sb.append(String.format("%20x",b));
+                sb.append(String.format("%02x",b));
             }
             return sb.toString();
         }catch(NoSuchAlgorithmException e){
