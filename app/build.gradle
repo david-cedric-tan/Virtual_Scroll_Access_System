@@ -34,10 +34,10 @@ application {
     mainClassName = 'Steph_Lab17_Group2_A2.App'
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
-}
+// tasks.named('test') {
+//     // Use JUnit Platform for unit tests.
+//     useJUnitPlatform()
+// }
 
 run {
     standardInput = System.in
