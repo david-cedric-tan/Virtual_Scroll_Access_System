@@ -128,24 +128,46 @@ public class ScrollManager {
     }
 
     // Method to list all scrolls in a table format
+    // Method to list all scrolls in a table format and allow downloading
     public void listScrolls() {
         if (scrolls.isEmpty()) {
             System.out.println("No scrolls available.");
             return;
         }
 
-        // Header for the table
+        // Displaying the scrolls in table format
         System.out.printf("%-10s %-20s %-30s%n", "Scroll ID", "Scroll Name", "Binary File Path");
         System.out.println("--------------------------------------------------------------");
 
-        // Loop through each scroll and display details
         for (Scroll scroll : scrolls.values()) {
             System.out.printf("%-10s %-20s %-30s%n", 
                 scroll.getId(), 
                 scroll.getName(), 
                 scroll.getBinaryFile().getPath());
         }
+
+        // Asking the user if they want to download a scroll
+        System.out.println("\nWould you like to download a scroll? (yes/no)");
+        String response = scanner.nextLine().toLowerCase();
+
+        if (response.equals("yes")) {
+            System.out.println("Enter the Scroll ID you want to download:");
+            String scrollId = scanner.nextLine();
+
+            Scroll scrollToDownload = scrolls.get(scrollId);
+
+            if (scrollToDownload != null) {
+                // Simulating the download process (you can add actual file operations here if needed)
+                System.out.println("Downloading Scroll: " + scrollToDownload.getName());
+                System.out.println("File downloaded to: " + scrollToDownload.getBinaryFile().getPath());
+            } else {
+                System.out.println("Scroll with ID " + scrollId + " not found.");
+            }
+        } else {
+            System.out.println("Returning to menu.");
+        }
     }
+
 
 
     // // Method to display the scroll management menu
