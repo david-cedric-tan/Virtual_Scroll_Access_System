@@ -225,8 +225,33 @@ public class App {
     
     // Guest Portal
     private static void guestPortal() {
-        System.out.println("====Guest Portal====");
-        System.out.println("Limited access granted.");
+        Scanner scanner = new Scanner(System.in);
+        boolean isGuestRunning = true;
+
+        while (isGuestRunning) {
+            System.out.println("====Guest Portal====");
+            System.out.println("Limited access granted.");
+            System.out.println("1. View Scrolls");
+            System.out.println("2. Exit to Main Menu");
+
+            int guestChoice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch(guestChoice) {
+                case 1: 
+                    System.out.println("====Viewing Available Scrolls (Guest Access)====");
+                    scrollManager.listScrolls(); // Guests can only view, no download/upload
+                    break;
+                case 2: 
+                    System.out.println("Exiting Guest Portal.");
+                    isGuestRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select a valid option");
+            }
+        }
+
+        scanner.close();
     }
 
     // Check if username is taken
