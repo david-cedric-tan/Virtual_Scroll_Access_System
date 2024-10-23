@@ -31,7 +31,7 @@ public class App {
                     register(scanner);
                     break;
                 case 3:
-                    guestPortal();
+                    guestPortal(scanner);
                     break;
                 case 4:
                     System.out.println("Exiting the system. Goodbye!");
@@ -224,8 +224,7 @@ public class App {
     
     
     // Guest Portal
-    private static void guestPortal() {
-        Scanner scanner = new Scanner(System.in);
+    private static void guestPortal(Scanner scanner) {
         boolean isGuestRunning = true;
 
         while (isGuestRunning) {
@@ -250,8 +249,6 @@ public class App {
                     System.out.println("Invalid choice. Please select a valid option");
             }
         }
-
-        scanner.close();
     }
 
     // Check if username is taken
