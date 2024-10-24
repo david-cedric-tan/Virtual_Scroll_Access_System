@@ -180,7 +180,8 @@ public class App {
             System.out.println("8. Remove Scrolls");// Uses ScrollManager
             System.out.println("9. Edit Scrolls");  // Uses ScrollManager
             System.out.println("10. Search Scrolls"); // Uses ScrollManager
-            System.out.println("11: Exit");
+            System.out.println("11. Spectator Mode");
+            System.out.println("12: Exit");
     
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character after nextInt()
@@ -217,6 +218,9 @@ public class App {
                     scrollManager.searchScrolls();
                     break;
                 case 11:
+                    spectatorMode(scanner);
+                    break;
+                case 12:
                     System.out.println("Exiting Admin Management.");
                     keepRunning = false; // Exit the loop
                     break;
@@ -225,6 +229,42 @@ public class App {
             }
         }
     }
+
+
+    
+    // Spectator Mode Function
+    private static void spectatorMode(Scanner scanner) {
+        System.out.println("====Spectator Mode====");
+        System.out.println("1. View as Guest");
+        System.out.println("2. View as User");
+        System.out.println("3. Return to Admin Portal");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine(); 
+
+        switch (choice) {
+            case 1:
+                System.out.println("Switching to Guest View...");
+                guestPortal(scanner); // Enter guest portal
+                break;
+            case 2:
+                System.out.println("Enter the username of the user to view as:");
+                String username = scanner.nextLine();
+                if (isUsernameTaken(username)) {
+                    System.out.println("Switching to User View for " + username + "...");
+                    userPortal(username); // Enter user portal as specified user
+                } else {
+                    System.out.println("User not found.");
+                }
+                break;
+            case 3:
+                System.out.println("Returning to Admin Portal...");
+                return;
+            default:
+                System.out.println("Invalid choice. Please select a valid option.");
+        }
+    }
+
     
     
     // Guest Portal
