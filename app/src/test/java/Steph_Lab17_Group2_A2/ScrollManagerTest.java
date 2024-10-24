@@ -48,7 +48,7 @@ public class ScrollManagerTest {
 
         formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"); // use to remove hh:mm:ss and replaced with 00:00:00
         String formattedDate = formatter.format(date);
-        fullDateString = formattedDate.substring(0, 10) + " 00:00:00" + formattedDate.substring(19, 29);
+        fullDateString = formattedDate.substring(0, 11) + "00:00:00" + formattedDate.substring(19);
 
         System.setOut(new PrintStream(outContent));
     }
