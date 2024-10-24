@@ -2,16 +2,30 @@ package Steph_Lab17_Group2_A2;
 
 import java.util.*;
 import java.io.*;
+import java.util.logging.*;
 
 public class App {
     private static final String USERS_FILE = "users.txt"; // User profiles
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD_HASHED = Encryption.doMD5Hashing("admin");
     private static ScrollManager scrollManager = new ScrollManager(); // Manages Scroll functions
+    private static final Logger logger = Logger.getLogger(App.class.getName()); // Logger instance
+
+    static {
+        try {
+            FileHandler fh = new FileHandler("app.log", true); // Log file name
+            fh.setFormatter(new SimpleFormatter());
+            logger.addHandler(fh);
+            logger.setLevel(Level.ALL);
+        } catch (SecurityException | IOException e) {
+            logger.log(Level.SEVERE, "Failed to initialize log handler.", e);
+        }
+    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
+        logger.info("Application started."); // Log application start
 
         while (isRunning) {
             System.out.println("Please select an option:");
@@ -25,19 +39,24 @@ public class App {
 
             switch (loginChoice) {
                 case 1:
+                    logger.info("Login attempt started."); // Log login attempt
                     login(scanner);
                     break;
                 case 2:
+                    logger.info("Registration attempt started."); // Log registration attempt
                     register(scanner);
                     break;
                 case 3:
+                    logger.info("Entering guest portal."); // Log guest entry
                     guestPortal(scanner);
                     break;
                 case 4:
+                    logger.info("Exiting application."); // Log application exit
                     System.out.println("Exiting the system. Goodbye!");
                     isRunning = false;
                     break;
                 default:
+                    logger.warning("Invalid choice made."); // Log invalid choices
                     System.out.println("Invalid choice. Please select a valid option.");
                     break;
             }
@@ -55,18 +74,23 @@ public class App {
             String password = scanner.nextLine();
 
             String hashedPassword = Encryption.doMD5Hashing(password);
+            logger.info("Attempting to validate credentials for username: " + username);
 
             if (validateCredentials(username, hashedPassword)) {
+                logger.info("Credentials validated for username: " + username);
                 if (isAdmin(username, hashedPassword)) {
                     System.out.println("Login successful! Welcome admin.");
+                    logger.info("Admin logged in: " + username);
                     adminPortal(scanner);
                 } else {
                     System.out.println("Login successful! Welcome " + username);
+                    logger.info("User logged in: " + username);
                     userPortal(username);
                 }
                 loginSuccess = true;
             } else {
                 System.out.println("Invalid username or password.");
+                logger.warning("Invalid login attempt for username: " + username);
                 System.out.println("1. Try again");
                 System.out.println("2. Go back to main menu");
 
@@ -84,6 +108,7 @@ public class App {
 
         if (isUsernameTaken(username)) {
             System.out.println("Username already exists. Please try again.");
+            logger.warning("Registration attempt failed - Username already taken: " + username);
         } else {
             System.out.println("Please enter your password:");
             String password = scanner.nextLine();
@@ -98,6 +123,7 @@ public class App {
             int idKey = getNextIdKey(); // Auto-generate ID key
             saveNewUser(username, hashedPassword, fullName, phoneNumber, email, idKey);
             System.out.println("Registration successful! Your ID key is: " + idKey + ". You can now log in.");
+            logger.info("New user registered: " + username + " with ID: " + idKey);
         }
     }
 
@@ -145,23 +171,27 @@ public class App {
                 String hashedPassword = Encryption.doMD5Hashing(newPassword);
                 updateUserField(username, 1, hashedPassword); // Update password in the file
                 System.out.println("Password updated.");
+                logger.info("Password updated for user: " + username);
                 break;
             case 2:
                 System.out.println("Enter new phone number:");
                 String newPhone = scanner.nextLine();
                 updateUserField(username, 3, newPhone);
                 System.out.println("Phone number updated.");
+                logger.info("Phone number updated for user: " + username);
                 break;
             case 3:
                 System.out.println("Enter new email:");
                 String newEmail = scanner.nextLine();
                 updateUserField(username, 4, newEmail);
                 System.out.println("Email updated.");
+                logger.info("Email updated for user: " + username);
                 break;
             case 4:
                 return;
             default:
                 System.out.println("Invalid choice.");
+                logger.warning("Invalid profile update choice for user: " + username);
         }
     }
 
@@ -312,6 +342,7 @@ public class App {
             writer.newLine();
         } catch (IOException e) {
             System.out.println("Error writing to user file.");
+            logger.log(Level.SEVERE, "Error writing to user file: " + USERS_FILE, e);
         }
     }
 
@@ -331,6 +362,7 @@ public class App {
             }
         } catch (IOException e) {
             System.out.println("Error reading user file.");
+            logger.log(Level.SEVERE, "Error writing to user file: " + USERS_FILE, e);
         }
     }
     

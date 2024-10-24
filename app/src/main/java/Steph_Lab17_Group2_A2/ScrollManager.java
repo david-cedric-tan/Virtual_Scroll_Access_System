@@ -1,6 +1,7 @@
 package Steph_Lab17_Group2_A2;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,9 +11,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.*;
 
 // ScrollManager class to manage scroll operations
 public class ScrollManager {
+
+    private static final Logger logger = Logger.getLogger(ScrollManager.class.getName());
+
+    static {
+        try {
+            FileHandler fh = new FileHandler("ScrollManager.log", true);
+            fh.setFormatter(new SimpleFormatter());
+            logger.addHandler(fh);
+            logger.setLevel(Level.ALL);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to initialize log handler for ScrollManager.", e);
+        }
+    }
 
     // A Map to store scrolls (ID -> Scroll object)
     private Map<String, Scroll> scrolls = new HashMap<>();
@@ -70,18 +85,19 @@ public class ScrollManager {
 
     // Method to add new scroll
     public void addScroll() {
+        logger.info("Starting to add a new scroll.");
         System.out.println("Enter Scroll Name:");
         String name = scanner.nextLine();
         System.out.println("Enter Scroll ID:");
         String id = scanner.nextLine();
 
-        // Uploading binary file (simulating binary upload)
         System.out.println("Enter the path of the binary file:");
         String filePath = scanner.nextLine();
         File binaryFile = new File(filePath);
 
         if (!binaryFile.exists()) {
             System.out.println("File not found. Please try again.");
+            logger.warning("File not found: " + filePath);
             return;
         }
 
@@ -91,21 +107,24 @@ public class ScrollManager {
 
         //Get current date
         Date uploadDate = new Date();
-        
+
         // Add scroll to the library
         Scroll newScroll = new Scroll(id, name, binaryFile, uploaderID, uploadDate);
         scrolls.put(id, newScroll);
         System.out.println("Scroll added successfully.");
+        logger.info("Scroll added successfully: " + id);
     }
 
     // Method to edit a scroll
     public void editScroll() {
+        logger.info("Starting to edit a scroll.");
         System.out.println("Enter Scroll ID to edit:");
         String id = scanner.nextLine();
 
         Scroll scroll = scrolls.get(id);
         if (scroll == null) {
             System.out.println("Scroll not found.");
+            logger.warning("Attempted to edit a non-existing scroll with ID: " + id);
             return;
         }
 
@@ -121,22 +140,24 @@ public class ScrollManager {
                 String newName = scanner.nextLine();
                 scroll.setName(newName);
                 System.out.println("Scroll name updated.");
+                logger.info("Scroll name updated to: " + newName + " for Scroll ID: " + id);
                 break;
-
             case 2:
                 System.out.println("Enter the path of the new binary file:");
                 String newFilePath = scanner.nextLine();
                 File newBinaryFile = new File(newFilePath);
                 if (!newBinaryFile.exists()) {
                     System.out.println("File not found. Please try again.");
+                    logger.warning("New binary file not found at path: " + newFilePath);
                 } else {
                     scroll.setBinaryFile(newBinaryFile);
                     System.out.println("Binary file updated.");
+                    logger.info("Binary file updated for Scroll ID: " + id + " to new path: " + newFilePath);
                 }
                 break;
-
             default:
                 System.out.println("Invalid choice.");
+                logger.warning("Invalid choice made during scroll editing for Scroll ID: " + id);
         }
     }
 
@@ -297,8 +318,6 @@ public class ScrollManager {
         return calendar.getTime();
     }
 
-    
-
 
     // Method to remove a scroll
     public void removeScroll() {
@@ -307,8 +326,10 @@ public class ScrollManager {
 
         if (scrolls.remove(id) != null) {
             System.out.println("Scroll removed successfully.");
+            logger.info("Scroll removed successfully: " + id);
         } else {
             System.out.println("Scroll not found.");
+            logger.warning("Attempted to remove a non-existing scroll with ID: " + id);
         }
     }
 
