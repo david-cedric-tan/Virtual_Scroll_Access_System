@@ -169,7 +169,7 @@ public class App {
         }
     }
 
-    // Update user profile (password, phone, email)
+    // Update user profile (password, phone, email, unique ID)
     private static void updateUserProfile(String username, Scanner scanner) {
         System.out.println("Update Profile for " + username);
         System.out.println("1. Change Password");
@@ -203,7 +203,12 @@ public class App {
                 logger.info("Email updated for user: " + username);
                 break;
             case 4:
-                return;
+                System.out.println("Enter new unique ID:");
+                String newId = scanner.nextLine();
+                updateUserField(username, 5, newId); 
+                System.out.println("Unique ID updated.");
+                logger.info("Unique ID updated for user: " + username);
+                break;
             default:
                 System.out.println("Invalid choice.");
                 logger.warning("Invalid profile update choice for user: " + username);
@@ -455,6 +460,8 @@ public class App {
         System.out.println("1. Change Password");
         System.out.println("2. Update Phone Number");
         System.out.println("3. Update Email");
+        System.out.println("4. Update User ID"); // New option for updating ID
+        System.out.println("5. Back.");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
@@ -478,6 +485,14 @@ public class App {
                 updateUserField(username, 4, newEmail);
                 System.out.println("Email updated.");
                 break;
+            case 4:
+                System.out.println("Enter new unique ID:");
+                String newId = scanner.nextLine();
+                updateUserField(username, 5, newId); 
+                System.out.println("Unique ID updated.");
+                break;
+            case 5:
+                return;
             default:
                 System.out.println("Invalid choice.");
         }
@@ -497,16 +512,41 @@ public class App {
     }
     
     
-    
+    // Helper method to get the next available ID key
+    private static int getNextIdKey() {
+        int highestId = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(":");
+                int idKey = Integer.parseInt(userDetails[5]); // ID key is the 6th field
+                if (idKey > highestId) {
+                    highestId = idKey;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading user file.");
+        }
+        return highestId + 1; // Return the next available ID key
+    }
 
     // Update a specific field in the user's profile
     private static void updateUserField(String username, int fieldIndex, String newValue) {
         List<String> users = new ArrayList<>();
+        boolean idExists = false; // Flag to check if ID exists
+
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(":");
                 if (userDetails[0].equals(username)) {
+                    if (fieldIndex == 5) { // Assuming the ID is in fieldIndex 5
+                        if (checkFieldExists(newValue, 5) && !userDetails[5].equals(newValue)) { // Check if the new ID exists and is different from the current one
+                            System.out.println("Error: ID already exists.");
+                            return; // Abort the update if ID exists
+                        }
+                        idExists = true; // Mark ID as exists if we're updating it
+                    }
                     userDetails[fieldIndex] = newValue;
                     users.add(String.join(":", userDetails));
                 } else {
@@ -528,23 +568,6 @@ public class App {
         }
     }
 
-    // Helper method to get the next available ID key
-    private static int getNextIdKey() {
-        int highestId = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split(":");
-                int idKey = Integer.parseInt(userDetails[5]); // ID key is the 6th field
-                if (idKey > highestId) {
-                    highestId = idKey;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading user file.");
-        }
-        return highestId + 1; // Return the next available ID key
-    }
 
     // Helper methods to check if fields exist
     private static boolean checkFieldExists(String value, int fieldIndex) {
