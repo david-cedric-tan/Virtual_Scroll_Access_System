@@ -129,10 +129,23 @@ public class App {
             String password = scanner.nextLine();
             System.out.println("Enter your full name:");
             String fullName = scanner.nextLine();
-            System.out.println("Enter your phone number:");
+            // Validate phone number
+            System.out.println("Enter your phone number (up to 11 digits):");
             String phoneNumber = scanner.nextLine();
+            // Regex to check if the phone number contains only digits and is up to 11 digits long
+            while (!phoneNumber.matches("\\d{1,11}")) {
+                System.out.println("Invalid phone number. Please enter up to 11 digits:");
+                phoneNumber = scanner.nextLine();
+            }
+
+            // Validate email
             System.out.println("Enter your email:");
             String email = scanner.nextLine();
+            // Regex to validate email
+            while (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
+                System.out.println("Invalid email format. Please enter a valid email:");
+                email = scanner.nextLine();
+            }
 
             String hashedPassword = Encryption.doMD5Hashing(password);
             int idKey = getNextIdKey(); // Auto-generate ID key
@@ -191,6 +204,11 @@ public class App {
             case 2:
                 System.out.println("Enter new phone number:");
                 String newPhone = scanner.nextLine();
+                // Regex to check if the phone number contains only digits and is up to 11 digits long
+                while (!newPhone.matches("\\d{1,11}")) {
+                    System.out.println("Invalid phone number. Please enter up to 11 digits:");
+                    newPhone = scanner.nextLine();
+                }
                 updateUserField(username, 3, newPhone);
                 System.out.println("Phone number updated.");
                 logger.info("Phone number updated for user: " + username);
@@ -198,6 +216,11 @@ public class App {
             case 3:
                 System.out.println("Enter new email:");
                 String newEmail = scanner.nextLine();
+                // Regex to validate email
+                while (!newEmail.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
+                    System.out.println("Invalid email format. Please enter a valid email:");
+                    newEmail = scanner.nextLine();
+                }
                 updateUserField(username, 4, newEmail);
                 System.out.println("Email updated.");
                 logger.info("Email updated for user: " + username);
@@ -396,8 +419,17 @@ public class App {
         String fullName = scanner.nextLine();
         System.out.println("Enter phone number:");
         String phone = scanner.nextLine();
+        while (!phone.matches("\\d{1,11}")) {
+            System.out.println("Invalid phone number. Please enter up to 11 digits:");
+            phone = scanner.nextLine();
+        }
         System.out.println("Enter email:");
         String email = scanner.nextLine();
+        // Regex to validate email
+        while (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
+            System.out.println("Invalid email format. Please enter a valid email:");
+            email = scanner.nextLine();
+        }
     
         String hashedPassword = Encryption.doMD5Hashing(password);
         int idKey = getNextIdKey();
