@@ -58,6 +58,17 @@ public class AppTest {
         String expectedOutput = "Enter username:\nEnter password:\nLogin successful! Welcome admin.\n====Admin Portal====\n1. View User Profiles\n2. Add User Profiles\n3. Delete User Profiles\n4. Update User Profiles\n5. View Stats\n6. View Scrolls\n7. Add Scrolls\n8. Remove Scrolls\n9. Edit Scrolls\n10. Search Scrolls\n11. Spectator Mode\n12: Exit\nExiting Admin Management.";
         assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
     }
+    @Test
+    void testLoginInvalidPassword() {
+        String userInput = "admin\nadminx\n2\n";
+        ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(input);
+        App.login(scanner);
+
+        // Check the expected output
+        String expectedOutput = "Enter username:\nEnter password:\nInvalid username or password.\n1. Try again\n2. Go back to main menu";
+        assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
+    }
 
 
     // Test login
@@ -202,4 +213,66 @@ public class AppTest {
         String expectedOutput = "Total number of users: 4";
         assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
     }
+
+    @Test
+    void testSpectatorMode1() {
+        String userInput = "11\n13\n";
+        ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(input);
+        App.spectatorMode(scanner);
+
+        // Check the expected output
+        String expectedOutput = "====Spectator Mode====\n1. View as Guest\n2. View as User\n3. Return to Admin Portal\nInvalid choice. Please select a valid option.";
+        assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
+    }
+
+    @Test
+    void testSpectatorMode2() {
+        String userInput = "22\nyoda\n13\n";
+        ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(input);
+        App.spectatorMode(scanner);
+
+        // Check the expected output
+        String expectedOutput = "====Spectator Mode====\n1. View as Guest\n2. View as User\n3. Return to Admin Portal\nInvalid choice. Please select a valid option.";
+        assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
+    }
+
+    @Test
+    void testSpectatorMode3() {
+        String userInput = "33\n";
+        ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(input);
+        App.spectatorMode(scanner);
+
+        // Check the expected output
+        String expectedOutput = "====Spectator Mode====\n1. View as Guest\n2. View as User\n3. Return to Admin Portal\nInvalid choice. Please select a valid option.";
+        assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
+    }
+    
+    @Test
+    void testGuestPortal() {
+        String userInput = "2\n";
+        ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(input);
+        App.guestPortal(scanner);
+
+        // Check the expected output
+        String expectedOutput = "====Guest Portal====\nLimited access granted.\n1. View Scrolls\n2. Exit to Main Menu\nExiting Guest Portal.";
+        assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
+    }
+
+    @Test
+    void testAdminPortal() {
+        String userInput = "12\n";
+        ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(input);
+        App.adminPortal(scanner);
+
+        // Check the expected output
+        String expectedOutput = "====Admin Portal====\n1. View User Profiles\n2. Add User Profiles\n3. Delete User Profiles\n4. Update User Profiles\n5. View Stats\n6. View Scrolls\n7. Add Scrolls\n8. Remove Scrolls\n9. Edit Scrolls\n10. Search Scrolls\n11. Spectator Mode\n12: Exit\nExiting Admin Management.";
+        assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
+    }
+
+
 }
