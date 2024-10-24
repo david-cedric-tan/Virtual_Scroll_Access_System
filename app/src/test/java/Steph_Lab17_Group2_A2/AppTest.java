@@ -249,7 +249,7 @@ public class AppTest {
         String expectedOutput = "====Spectator Mode====\n1. View as Guest\n2. View as User\n3. Return to Admin Portal\nInvalid choice. Please select a valid option.";
         assertEquals(expectedOutput.replace("\r\n", "\n").trim().replace("\n",""), outContent.toString().replace("\r\n", "\n").trim().replace("\n",""), "passed");
     }
-
+    
     @Test
     void testGuestPortal() {
         String userInput = "2\n";
