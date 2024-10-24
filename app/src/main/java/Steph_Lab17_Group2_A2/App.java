@@ -2,16 +2,30 @@ package Steph_Lab17_Group2_A2;
 
 import java.util.*;
 import java.io.*;
+import java.util.logging.*;
 
 public class App {
     private static final String USERS_FILE = "users.txt"; // User profiles
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD_HASHED = Encryption.doMD5Hashing("admin");
     private static ScrollManager scrollManager = new ScrollManager(); // Manages Scroll functions
+    private static final Logger logger = Logger.getLogger(App.class.getName()); // Logger instance
+
+    static {
+        try {
+            FileHandler fh = new FileHandler("app.log", true); // Log file name
+            fh.setFormatter(new SimpleFormatter());
+            logger.addHandler(fh);
+            logger.setLevel(Level.ALL);
+        } catch (SecurityException | IOException e) {
+            logger.log(Level.SEVERE, "Failed to initialize log handler.", e);
+        }
+    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
+        logger.info("Application started."); // Log application start
 
         while (isRunning) {
             System.out.println("Please select an option:");
@@ -25,19 +39,24 @@ public class App {
 
             switch (loginChoice) {
                 case 1:
+                    logger.info("Login attempt started."); // Log login attempt
                     login(scanner);
                     break;
                 case 2:
+                    logger.info("Registration attempt started."); // Log registration attempt
                     register(scanner);
                     break;
                 case 3:
+                    logger.info("Entering guest portal."); // Log guest entry
                     guestPortal(scanner);
                     break;
                 case 4:
+                    logger.info("Exiting application."); // Log application exit
                     System.out.println("Exiting the system. Goodbye!");
                     isRunning = false;
                     break;
                 default:
+                    logger.warning("Invalid choice made."); // Log invalid choices
                     System.out.println("Invalid choice. Please select a valid option.");
                     break;
             }
@@ -55,18 +74,23 @@ public class App {
             String password = scanner.nextLine();
 
             String hashedPassword = Encryption.doMD5Hashing(password);
+            logger.info("Attempting to validate credentials for username: " + username);
 
             if (validateCredentials(username, hashedPassword)) {
+                logger.info("Credentials validated for username: " + username);
                 if (isAdmin(username, hashedPassword)) {
                     System.out.println("Login successful! Welcome admin.");
+                    logger.info("Admin logged in: " + username);
                     adminPortal(scanner);
                 } else {
                     System.out.println("Login successful! Welcome " + username);
+                    logger.info("User logged in: " + username);
                     userPortal(username);
                 }
                 loginSuccess = true;
             } else {
                 System.out.println("Invalid username or password.");
+                logger.warning("Invalid login attempt for username: " + username);
                 System.out.println("1. Try again");
                 System.out.println("2. Go back to main menu");
 
@@ -84,6 +108,7 @@ public class App {
 
         if (isUsernameTaken(username)) {
             System.out.println("Username already exists. Please try again.");
+            logger.warning("Registration attempt failed - Username already taken: " + username);
         } else {
             System.out.println("Please enter your password:");
             String password = scanner.nextLine();
@@ -98,6 +123,7 @@ public class App {
             int idKey = getNextIdKey(); // Auto-generate ID key
             saveNewUser(username, hashedPassword, fullName, phoneNumber, email, idKey);
             System.out.println("Registration successful! Your ID key is: " + idKey + ". You can now log in.");
+            logger.info("New user registered: " + username + " with ID: " + idKey);
         }
     }
 
@@ -128,13 +154,14 @@ public class App {
         }
     }
 
-    // Update user profile (password, phone, email)
+    // Update user profile (password, phone, email, unique ID)
     private static void updateUserProfile(String username, Scanner scanner) {
         System.out.println("Update Profile for " + username);
         System.out.println("1. Change Password");
         System.out.println("2. Update Phone Number");
         System.out.println("3. Update Email");
-        System.out.println("4. Back");
+        System.out.println("4. Change Unique ID");
+        System.out.println("5. Back");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -159,11 +186,45 @@ public class App {
                 System.out.println("Email updated.");
                 break;
             case 4:
+                changeUniqueId(username, scanner);
+                break;
+            case 5:
                 return;
             default:
                 System.out.println("Invalid choice.");
         }
     }
+
+    // Change Unique ID
+    private static void changeUniqueId(String username, Scanner scanner) {
+        System.out.println("Enter new unique ID:");
+        int newId = scanner.nextInt();
+        scanner.nextLine();
+
+        if (isIdTaken(newId)) {
+            System.out.println("This ID is already taken. Please choose a different ID.");
+        } else {
+            updateUserField(username, 5, String.valueOf(newId)); // Update unique ID in the file
+            System.out.println("Unique ID updated.");
+        }
+    }
+
+    // Check if unique ID is taken
+    private static boolean isIdTaken(int id) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(":");
+                if (Integer.parseInt(userDetails[5]) == id) {
+                    return true; // ID is taken
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading user file.");
+        }
+        return false; // ID is available
+    }
+
 
     private static void adminPortal(Scanner scanner) {
         boolean keepRunning = true; // Flag to control loop execution
@@ -312,6 +373,7 @@ public class App {
             writer.newLine();
         } catch (IOException e) {
             System.out.println("Error writing to user file.");
+            logger.log(Level.SEVERE, "Error writing to user file: " + USERS_FILE, e);
         }
     }
 
@@ -331,6 +393,7 @@ public class App {
             }
         } catch (IOException e) {
             System.out.println("Error reading user file.");
+            logger.log(Level.SEVERE, "Error writing to user file: " + USERS_FILE, e);
         }
     }
     
@@ -395,46 +458,64 @@ public class App {
         }
     }
 
-    //Admin functionality 4: Update User Profile
-    private static void updateUserProfileAdmin(Scanner scanner) {
-        System.out.println("Enter the username of the user to update:");
-        String username = scanner.nextLine();
-    
-        if (!isUsernameTaken(username)) {
-            System.out.println("User not found.");
-            return;
-        }
-    
-        System.out.println("1. Change Password");
-        System.out.println("2. Update Phone Number");
-        System.out.println("3. Update Email");
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-    
-        switch (choice) {
-            case 1:
-                System.out.println("Enter new password:");
-                String newPassword = scanner.nextLine();
-                String hashedPassword = Encryption.doMD5Hashing(newPassword);
-                updateUserField(username, 1, hashedPassword);
-                System.out.println("Password updated.");
-                break;
-            case 2:
-                System.out.println("Enter new phone number:");
-                String newPhone = scanner.nextLine();
-                updateUserField(username, 3, newPhone);
-                System.out.println("Phone number updated.");
-                break;
-            case 3:
-                System.out.println("Enter new email:");
-                String newEmail = scanner.nextLine();
-                updateUserField(username, 4, newEmail);
-                System.out.println("Email updated.");
-                break;
-            default:
-                System.out.println("Invalid choice.");
-        }
+    // Admin functionality 4: Update User Profile
+private static void updateUserProfileAdmin(Scanner scanner) {
+    System.out.println("Enter the username of the user to update:");
+    String username = scanner.nextLine();
+
+    if (!isUsernameTaken(username)) {
+        System.out.println("User not found.");
+        return;
     }
+
+    System.out.println("1. Change Password");
+    System.out.println("2. Update Phone Number");
+    System.out.println("3. Update Email");
+    System.out.println("4. Change Unique ID");
+    int choice = scanner.nextInt();
+    scanner.nextLine(); // Consume newline
+
+    switch (choice) {
+        case 1:
+            System.out.println("Enter new password:");
+            String newPassword = scanner.nextLine();
+            String hashedPassword = Encryption.doMD5Hashing(newPassword);
+            updateUserField(username, 1, hashedPassword);
+            System.out.println("Password updated.");
+            break;
+        case 2:
+            System.out.println("Enter new phone number:");
+            String newPhone = scanner.nextLine();
+            updateUserField(username, 3, newPhone);
+            System.out.println("Phone number updated.");
+            break;
+        case 3:
+            System.out.println("Enter new email:");
+            String newEmail = scanner.nextLine();
+            updateUserField(username, 4, newEmail);
+            System.out.println("Email updated.");
+            break;
+        case 4:
+            changeUniqueIdAdmin(username, scanner);
+            break;
+        default:
+            System.out.println("Invalid choice.");
+    }
+}
+
+// Change Unique ID for Admin
+private static void changeUniqueIdAdmin(String username, Scanner scanner) {
+    System.out.println("Enter new unique ID:");
+    int newId = scanner.nextInt();
+    scanner.nextLine();
+
+    if (isIdTaken(newId)) {
+        System.out.println("This ID is already taken. Please choose a different ID.");
+    } else {
+        updateUserField(username, 5, String.valueOf(newId)); // Update unique ID in the file
+        System.out.println("Unique ID updated.");
+    }
+}
 
     //Admin functionality 5: View Stats
     private static void viewStats() {
