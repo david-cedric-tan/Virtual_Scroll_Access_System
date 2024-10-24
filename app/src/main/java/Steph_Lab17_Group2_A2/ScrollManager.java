@@ -18,6 +18,11 @@ public class ScrollManager {
     private Map<String, Scroll> scrolls = new HashMap<>();
     private Scanner scanner = new Scanner(System.in);
 
+    public void SetScanner(Scanner scan){
+        this.scanner = scan;
+    }
+
+    // Scroll class to represent a Scroll object
     // Scroll class to represent a Scroll object
     public class Scroll {
         private String id;
