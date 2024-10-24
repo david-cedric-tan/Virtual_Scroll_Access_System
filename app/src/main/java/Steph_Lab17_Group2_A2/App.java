@@ -175,7 +175,8 @@ public class App {
         System.out.println("1. Change Password");
         System.out.println("2. Update Phone Number");
         System.out.println("3. Update Email");
-        System.out.println("4. Back");
+        System.out.println("4. Change Unique ID");
+        System.out.println("5. Back");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -206,9 +207,10 @@ public class App {
                 System.out.println("Enter new unique ID:");
                 String newId = scanner.nextLine();
                 updateUserField(username, 5, newId); 
-                System.out.println("Unique ID updated.");
                 logger.info("Unique ID updated for user: " + username);
                 break;
+            case 5:
+                return;
             default:
                 System.out.println("Invalid choice.");
                 logger.warning("Invalid profile update choice for user: " + username);
@@ -489,7 +491,6 @@ public class App {
                 System.out.println("Enter new unique ID:");
                 String newId = scanner.nextLine();
                 updateUserField(username, 5, newId); 
-                System.out.println("Unique ID updated.");
                 break;
             case 5:
                 return;
@@ -544,6 +545,8 @@ public class App {
                         if (checkFieldExists(newValue, 5) && !userDetails[5].equals(newValue)) { // Check if the new ID exists and is different from the current one
                             System.out.println("Error: ID already exists.");
                             return; // Abort the update if ID exists
+                        } else{
+                            System.out.println("Success! ID updated.");
                         }
                         idExists = true; // Mark ID as exists if we're updating it
                     }
