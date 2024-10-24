@@ -2,16 +2,45 @@ package Steph_Lab17_Group2_A2;
 
 import java.util.*;
 import java.io.*;
+import java.util.logging.*;
 
 public class App {
     private static final String USERS_FILE = "users.txt"; // User profiles
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD_HASHED = Encryption.doMD5Hashing("admin");
     private static ScrollManager scrollManager = new ScrollManager(); // Manages Scroll functions
+    private static final Logger logger = Logger.getLogger(App.class.getName()); // Logger instance
+
+    static {
+        try {
+            FileHandler fh = new FileHandler("app.log", true);
+            fh.setFormatter(new SimpleFormatter() {
+                @Override
+                public synchronized String format(LogRecord lr) {
+                    return String.format("%1$tF %1$tT - [%2$s] - %3$s %n", new Date(lr.getMillis()), lr.getLevel().getLocalizedName(), lr.getMessage());
+                }
+            });
+            logger.addHandler(fh);
+            logger.setLevel(Level.INFO); // Adjust this level based on what you need to log
+
+            // Remove console handlers to prevent console output
+            Logger rootLogger = Logger.getLogger("");
+            Handler[] handlers = rootLogger.getHandlers();
+            for (Handler handler : handlers) {
+                if (handler instanceof ConsoleHandler) {
+                    rootLogger.removeHandler(handler);
+                }
+            }
+
+        } catch (SecurityException | IOException e) {
+            System.err.println("Failed to initialize logger: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
+        logger.info("Application started."); // Log application start
 
         while (isRunning) {
             System.out.println("Please select an option:");
@@ -25,19 +54,24 @@ public class App {
 
             switch (loginChoice) {
                 case 1:
+                    logger.info("Login attempt started."); // Log login attempt
                     login(scanner);
                     break;
                 case 2:
+                    logger.info("Registration attempt started."); // Log registration attempt
                     register(scanner);
                     break;
                 case 3:
+                    logger.info("Entering guest portal."); // Log guest entry
                     guestPortal(scanner);
                     break;
                 case 4:
+                    logger.info("Exiting application."); // Log application exit
                     System.out.println("Exiting the system. Goodbye!");
                     isRunning = false;
                     break;
                 default:
+                    logger.warning("Invalid choice made."); // Log invalid choices
                     System.out.println("Invalid choice. Please select a valid option.");
                     break;
             }
@@ -46,7 +80,7 @@ public class App {
     }
 
     // Login function
-    private static void login(Scanner scanner) {
+   public static void login(Scanner scanner) {
         boolean loginSuccess = false;
         while (!loginSuccess) {
             System.out.println("Enter username:");
@@ -55,18 +89,23 @@ public class App {
             String password = scanner.nextLine();
 
             String hashedPassword = Encryption.doMD5Hashing(password);
+            logger.info("Attempting to validate credentials for username: " + username);
 
             if (validateCredentials(username, hashedPassword)) {
+                logger.info("Credentials validated for username: " + username);
                 if (isAdmin(username, hashedPassword)) {
                     System.out.println("Login successful! Welcome admin.");
+                    logger.info("Admin logged in: " + username);
                     adminPortal(scanner);
                 } else {
                     System.out.println("Login successful! Welcome " + username);
+                    logger.info("User logged in: " + username);
                     userPortal(username);
                 }
                 loginSuccess = true;
             } else {
                 System.out.println("Invalid username or password.");
+                logger.warning("Invalid login attempt for username: " + username);
                 System.out.println("1. Try again");
                 System.out.println("2. Go back to main menu");
 
@@ -78,12 +117,13 @@ public class App {
     }
 
     // Register function with auto-generated ID key
-    private static void register(Scanner scanner) {
+   public static void register(Scanner scanner) {
         System.out.println("Please enter your username:");
         String username = scanner.nextLine();
 
         if (isUsernameTaken(username)) {
             System.out.println("Username already exists. Please try again.");
+            logger.warning("Registration attempt failed - Username already taken: " + username);
         } else {
             System.out.println("Please enter your password:");
             String password = scanner.nextLine();
@@ -98,6 +138,7 @@ public class App {
             int idKey = getNextIdKey(); // Auto-generate ID key
             saveNewUser(username, hashedPassword, fullName, phoneNumber, email, idKey);
             System.out.println("Registration successful! Your ID key is: " + idKey + ". You can now log in.");
+            logger.info("New user registered: " + username + " with ID: " + idKey);
         }
     }
 
@@ -128,13 +169,14 @@ public class App {
         }
     }
 
-    // Update user profile (password, phone, email)
-    private static void updateUserProfile(String username, Scanner scanner) {
+    // Update user profile (password, phone, email, unique ID)
+   public static void updateUserProfile(String username, Scanner scanner) {
         System.out.println("Update Profile for " + username);
         System.out.println("1. Change Password");
         System.out.println("2. Update Phone Number");
         System.out.println("3. Update Email");
-        System.out.println("4. Back");
+        System.out.println("4. Change Unique ID");
+        System.out.println("5. Back");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -145,27 +187,37 @@ public class App {
                 String hashedPassword = Encryption.doMD5Hashing(newPassword);
                 updateUserField(username, 1, hashedPassword); // Update password in the file
                 System.out.println("Password updated.");
+                logger.info("Password updated for user: " + username);
                 break;
             case 2:
                 System.out.println("Enter new phone number:");
                 String newPhone = scanner.nextLine();
                 updateUserField(username, 3, newPhone);
                 System.out.println("Phone number updated.");
+                logger.info("Phone number updated for user: " + username);
                 break;
             case 3:
                 System.out.println("Enter new email:");
                 String newEmail = scanner.nextLine();
                 updateUserField(username, 4, newEmail);
                 System.out.println("Email updated.");
+                logger.info("Email updated for user: " + username);
                 break;
             case 4:
+                System.out.println("Enter new unique ID:");
+                String newId = scanner.nextLine();
+                updateUserField(username, 5, newId); 
+                logger.info("Unique ID updated for user: " + username);
+                break;
+            case 5:
                 return;
             default:
                 System.out.println("Invalid choice.");
+                logger.warning("Invalid profile update choice for user: " + username);
         }
     }
 
-    private static void adminPortal(Scanner scanner) {
+    public static void adminPortal(Scanner scanner) {
         boolean keepRunning = true; // Flag to control loop execution
     
         while (keepRunning) {
@@ -233,7 +285,7 @@ public class App {
 
     
     // Spectator Mode Function
-    private static void spectatorMode(Scanner scanner) {
+    public static void spectatorMode(Scanner scanner) {
         System.out.println("====Spectator Mode====");
         System.out.println("1. View as Guest");
         System.out.println("2. View as User");
@@ -268,7 +320,7 @@ public class App {
     
     
     // Guest Portal
-    private static void guestPortal(Scanner scanner) {
+    public static void guestPortal(Scanner scanner) {
         boolean isGuestRunning = true;
 
         while (isGuestRunning) {
@@ -312,11 +364,12 @@ public class App {
             writer.newLine();
         } catch (IOException e) {
             System.out.println("Error writing to user file.");
+            logger.log(Level.SEVERE, "Error writing to user file: " + USERS_FILE, e);
         }
     }
 
     //Admin functionality 1: View User Profiles
-    private static void viewUserProfiles() {
+    public static void viewUserProfiles() {
         System.out.println("==== User Profiles ====");
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             String line;
@@ -331,11 +384,12 @@ public class App {
             }
         } catch (IOException e) {
             System.out.println("Error reading user file.");
+            logger.log(Level.SEVERE, "Error writing to user file: " + USERS_FILE, e);
         }
     }
     
     //Admin functionality 2: Add User Profiles
-    private static void addUserProfile(Scanner scanner) {
+    public static void addUserProfile(Scanner scanner) {
         System.out.println("Enter username:");
         String username = scanner.nextLine();
         if (isUsernameTaken(username)) {
@@ -359,7 +413,7 @@ public class App {
     }
     
     //Admin functionality 3: Delete User Profiles
-    private static void deleteUserProfile(Scanner scanner) {
+   public static void deleteUserProfile(Scanner scanner) {
         System.out.println("Enter the username of the user to delete:");
         String usernameToDelete = scanner.nextLine();
     
@@ -396,7 +450,7 @@ public class App {
     }
 
     //Admin functionality 4: Update User Profile
-    private static void updateUserProfileAdmin(Scanner scanner) {
+   public static void updateUserProfileAdmin(Scanner scanner) {
         System.out.println("Enter the username of the user to update:");
         String username = scanner.nextLine();
     
@@ -408,6 +462,8 @@ public class App {
         System.out.println("1. Change Password");
         System.out.println("2. Update Phone Number");
         System.out.println("3. Update Email");
+        System.out.println("4. Update User ID"); // New option for updating ID
+        System.out.println("5. Back.");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
@@ -431,13 +487,20 @@ public class App {
                 updateUserField(username, 4, newEmail);
                 System.out.println("Email updated.");
                 break;
+            case 4:
+                System.out.println("Enter new unique ID:");
+                String newId = scanner.nextLine();
+                updateUserField(username, 5, newId); 
+                break;
+            case 5:
+                return;
             default:
                 System.out.println("Invalid choice.");
         }
     }
 
     //Admin functionality 5: View Stats
-    private static void viewStats() {
+   public static void viewStats() {
         int userCount = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             while (reader.readLine() != null) {
@@ -450,16 +513,43 @@ public class App {
     }
     
     
-    
+    // Helper method to get the next available ID key
+   public static int getNextIdKey() {
+        int highestId = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(":");
+                int idKey = Integer.parseInt(userDetails[5]); // ID key is the 6th field
+                if (idKey > highestId) {
+                    highestId = idKey;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading user file.");
+        }
+        return highestId + 1; // Return the next available ID key
+    }
 
     // Update a specific field in the user's profile
     private static void updateUserField(String username, int fieldIndex, String newValue) {
         List<String> users = new ArrayList<>();
+        boolean idExists = false; // Flag to check if ID exists
+
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(":");
                 if (userDetails[0].equals(username)) {
+                    if (fieldIndex == 5) { // Assuming the ID is in fieldIndex 5
+                        if (checkFieldExists(newValue, 5) && !userDetails[5].equals(newValue)) { // Check if the new ID exists and is different from the current one
+                            System.out.println("Error: ID already exists.");
+                            return; // Abort the update if ID exists
+                        } else{
+                            System.out.println("Success! ID updated.");
+                        }
+                        idExists = true; // Mark ID as exists if we're updating it
+                    }
                     userDetails[fieldIndex] = newValue;
                     users.add(String.join(":", userDetails));
                 } else {
@@ -481,23 +571,6 @@ public class App {
         }
     }
 
-    // Helper method to get the next available ID key
-    private static int getNextIdKey() {
-        int highestId = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split(":");
-                int idKey = Integer.parseInt(userDetails[5]); // ID key is the 6th field
-                if (idKey > highestId) {
-                    highestId = idKey;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading user file.");
-        }
-        return highestId + 1; // Return the next available ID key
-    }
 
     // Helper methods to check if fields exist
     private static boolean checkFieldExists(String value, int fieldIndex) {
