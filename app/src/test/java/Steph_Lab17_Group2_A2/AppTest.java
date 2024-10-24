@@ -46,7 +46,7 @@ public class AppTest {
     //     App.deleteUserProfile(scanner);
     // }
 
-    // Test login
+    // POSITIVE CASES
     @Test
     void testLogin() {
         String userInput = "admin\nadmin\n12\n";

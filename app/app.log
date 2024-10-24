@@ -982,3 +982,42 @@ INFO: Exiting application.
 2024-10-25 07:16:45 - [INFO] - Starting to add a new scroll. 
 2024-10-25 07:16:45 - [INFO] - Scroll added successfully: 1 
 2024-10-25 07:16:45 - [WARNING] - Attempted to remove a non-existing scroll with ID: 6 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to edit a scroll. 
+2024-10-25 07:22:21 - [WARNING] - New binary file not found at path: notfound.bin 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [WARNING] - File not found: notfound.bin 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Scroll removed successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to edit a scroll. 
+2024-10-25 07:22:21 - [INFO] - Binary file updated for Scroll ID: 1 to new path: test.bin 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to edit a scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll name updated to: scroll1a for Scroll ID: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 2 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Scroll removed successfully: 1 
+2024-10-25 07:22:21 - [INFO] - Starting to add a new scroll. 
+2024-10-25 07:22:21 - [INFO] - Scroll added successfully: 1 
+2024-10-25 07:22:21 - [WARNING] - Attempted to remove a non-existing scroll with ID: 6 
