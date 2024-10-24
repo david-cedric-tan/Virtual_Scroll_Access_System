@@ -1,0 +1,48 @@
+Oct 24, 2024 10:35:57 PM Steph_Lab17_Group2_A2.App main
+INFO: Application started.
+Oct 24, 2024 10:36:04 PM Steph_Lab17_Group2_A2.App main
+INFO: Login attempt started.
+Oct 24, 2024 10:36:11 PM Steph_Lab17_Group2_A2.App login
+INFO: Attempting to validate credentials for username: admin
+Oct 24, 2024 10:36:11 PM Steph_Lab17_Group2_A2.App login
+INFO: Credentials validated for username: admin
+Oct 24, 2024 10:36:11 PM Steph_Lab17_Group2_A2.App login
+INFO: Admin logged in: admin
+Oct 24, 2024 10:36:50 PM Steph_Lab17_Group2_A2.App main
+INFO: Exiting application.
+Oct 24, 2024 10:39:57 PM Steph_Lab17_Group2_A2.App main
+INFO: Application started.
+Oct 24, 2024 10:40:01 PM Steph_Lab17_Group2_A2.App main
+INFO: Login attempt started.
+Oct 24, 2024 10:40:06 PM Steph_Lab17_Group2_A2.App login
+INFO: Attempting to validate credentials for username: admin
+Oct 24, 2024 10:40:06 PM Steph_Lab17_Group2_A2.App login
+INFO: Credentials validated for username: admin
+Oct 24, 2024 10:40:06 PM Steph_Lab17_Group2_A2.App login
+INFO: Admin logged in: admin
+Oct 24, 2024 10:40:17 PM Steph_Lab17_Group2_A2.App main
+INFO: Exiting application.
+Oct 24, 2024 10:51:51 PM Steph_Lab17_Group2_A2.App main
+INFO: Application started.
+Oct 24, 2024 10:51:55 PM Steph_Lab17_Group2_A2.App main
+INFO: Login attempt started.
+Oct 24, 2024 10:52:01 PM Steph_Lab17_Group2_A2.App login
+INFO: Attempting to validate credentials for username: ed
+Oct 24, 2024 10:52:01 PM Steph_Lab17_Group2_A2.App login
+WARNING: Invalid login attempt for username: ed
+Oct 24, 2024 10:52:06 PM Steph_Lab17_Group2_A2.App main
+INFO: Login attempt started.
+Oct 24, 2024 10:52:09 PM Steph_Lab17_Group2_A2.App login
+INFO: Attempting to validate credentials for username: admin
+Oct 24, 2024 10:52:09 PM Steph_Lab17_Group2_A2.App login
+INFO: Credentials validated for username: admin
+Oct 24, 2024 10:52:09 PM Steph_Lab17_Group2_A2.App login
+INFO: Admin logged in: admin
+Oct 24, 2024 10:52:27 PM Steph_Lab17_Group2_A2.App main
+INFO: Exiting application.
+2024-10-24 22:58:42 - [INFO] - Application started. 
+2024-10-24 22:58:46 - [INFO] - Login attempt started. 
+2024-10-24 22:58:49 - [INFO] - Attempting to validate credentials for username: admin 
+2024-10-24 22:58:49 - [INFO] - Credentials validated for username: admin 
+2024-10-24 22:58:49 - [INFO] - Admin logged in: admin 
+2024-10-24 22:58:57 - [INFO] - Exiting application. 
