@@ -7,6 +7,12 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 public class EncryptionTest {
+
+    //POSITIVE CASES
+    //NEGATIVE CASES
+    //EDGE CASES
+
+    //BASE FUNCTIONALITY
     @Test
     void testMD5Hashing() {
         String password = "password123";
@@ -16,6 +22,8 @@ public class EncryptionTest {
         assertEquals(expectedHash, actualHash);
     }
 
+
+    //BASE FUNCTIONALITY
     @Test
     void testAdminHashing() {
         String password = "admin";

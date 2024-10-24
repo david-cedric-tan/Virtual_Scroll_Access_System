@@ -80,7 +80,7 @@ public class App {
     }
 
     // Login function
-    private static void login(Scanner scanner) {
+   public static void login(Scanner scanner) {
         boolean loginSuccess = false;
         while (!loginSuccess) {
             System.out.println("Enter username:");
@@ -117,7 +117,7 @@ public class App {
     }
 
     // Register function with auto-generated ID key
-    private static void register(Scanner scanner) {
+   public static void register(Scanner scanner) {
         System.out.println("Please enter your username:");
         String username = scanner.nextLine();
 
@@ -170,7 +170,7 @@ public class App {
     }
 
     // Update user profile (password, phone, email, unique ID)
-    private static void updateUserProfile(String username, Scanner scanner) {
+   public static void updateUserProfile(String username, Scanner scanner) {
         System.out.println("Update Profile for " + username);
         System.out.println("1. Change Password");
         System.out.println("2. Update Phone Number");
@@ -217,7 +217,7 @@ public class App {
         }
     }
 
-    private static void adminPortal(Scanner scanner) {
+    public static void adminPortal(Scanner scanner) {
         boolean keepRunning = true; // Flag to control loop execution
     
         while (keepRunning) {
@@ -285,7 +285,7 @@ public class App {
 
     
     // Spectator Mode Function
-    private static void spectatorMode(Scanner scanner) {
+    public static void spectatorMode(Scanner scanner) {
         System.out.println("====Spectator Mode====");
         System.out.println("1. View as Guest");
         System.out.println("2. View as User");
@@ -320,7 +320,7 @@ public class App {
     
     
     // Guest Portal
-    private static void guestPortal(Scanner scanner) {
+    public static void guestPortal(Scanner scanner) {
         boolean isGuestRunning = true;
 
         while (isGuestRunning) {
@@ -369,7 +369,7 @@ public class App {
     }
 
     //Admin functionality 1: View User Profiles
-    private static void viewUserProfiles() {
+    public static void viewUserProfiles() {
         System.out.println("==== User Profiles ====");
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             String line;
@@ -389,7 +389,7 @@ public class App {
     }
     
     //Admin functionality 2: Add User Profiles
-    private static void addUserProfile(Scanner scanner) {
+    public static void addUserProfile(Scanner scanner) {
         System.out.println("Enter username:");
         String username = scanner.nextLine();
         if (isUsernameTaken(username)) {
@@ -413,7 +413,7 @@ public class App {
     }
     
     //Admin functionality 3: Delete User Profiles
-    private static void deleteUserProfile(Scanner scanner) {
+   public static void deleteUserProfile(Scanner scanner) {
         System.out.println("Enter the username of the user to delete:");
         String usernameToDelete = scanner.nextLine();
     
@@ -450,7 +450,7 @@ public class App {
     }
 
     //Admin functionality 4: Update User Profile
-    private static void updateUserProfileAdmin(Scanner scanner) {
+   public static void updateUserProfileAdmin(Scanner scanner) {
         System.out.println("Enter the username of the user to update:");
         String username = scanner.nextLine();
     
@@ -500,7 +500,7 @@ public class App {
     }
 
     //Admin functionality 5: View Stats
-    private static void viewStats() {
+   public static void viewStats() {
         int userCount = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             while (reader.readLine() != null) {
@@ -514,7 +514,7 @@ public class App {
     
     
     // Helper method to get the next available ID key
-    private static int getNextIdKey() {
+   public static int getNextIdKey() {
         int highestId = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
             String line;
