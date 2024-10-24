@@ -179,7 +179,8 @@ public class App {
             System.out.println("7. Add Scrolls");   // Uses ScrollManager
             System.out.println("8. Remove Scrolls");// Uses ScrollManager
             System.out.println("9. Edit Scrolls");  // Uses ScrollManager
-            System.out.println("10: Exit");
+            System.out.println("10. Search Scrolls"); // Uses ScrollManager
+            System.out.println("11: Exit");
     
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character after nextInt()
@@ -213,6 +214,9 @@ public class App {
                     scrollManager.editScroll();
                     break;
                 case 10:
+                    scrollManager.searchScrolls();
+                    break;
+                case 11:
                     System.out.println("Exiting Admin Management.");
                     keepRunning = false; // Exit the loop
                     break;
