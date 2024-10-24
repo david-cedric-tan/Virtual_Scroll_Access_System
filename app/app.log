@@ -40,3 +40,9 @@ Oct 24, 2024 10:52:09 PM Steph_Lab17_Group2_A2.App login
 INFO: Admin logged in: admin
 Oct 24, 2024 10:52:27 PM Steph_Lab17_Group2_A2.App main
 INFO: Exiting application.
+2024-10-24 22:58:42 - [INFO] - Application started. 
+2024-10-24 22:58:46 - [INFO] - Login attempt started. 
+2024-10-24 22:58:49 - [INFO] - Attempting to validate credentials for username: admin 
+2024-10-24 22:58:49 - [INFO] - Credentials validated for username: admin 
+2024-10-24 22:58:49 - [INFO] - Admin logged in: admin 
+2024-10-24 22:58:57 - [INFO] - Exiting application. 
