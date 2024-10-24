@@ -13,12 +13,27 @@ public class App {
 
     static {
         try {
-            FileHandler fh = new FileHandler("app.log", true); // Log file name
-            fh.setFormatter(new SimpleFormatter());
+            FileHandler fh = new FileHandler("app.log", true);
+            fh.setFormatter(new SimpleFormatter() {
+                @Override
+                public synchronized String format(LogRecord lr) {
+                    return String.format("%1$tF %1$tT - [%2$s] - %3$s %n", new Date(lr.getMillis()), lr.getLevel().getLocalizedName(), lr.getMessage());
+                }
+            });
             logger.addHandler(fh);
-            logger.setLevel(Level.ALL);
+            logger.setLevel(Level.INFO); // Adjust this level based on what you need to log
+
+            // Remove console handlers to prevent console output
+            Logger rootLogger = Logger.getLogger("");
+            Handler[] handlers = rootLogger.getHandlers();
+            for (Handler handler : handlers) {
+                if (handler instanceof ConsoleHandler) {
+                    rootLogger.removeHandler(handler);
+                }
+            }
+
         } catch (SecurityException | IOException e) {
-            logger.log(Level.SEVERE, "Failed to initialize log handler.", e);
+            System.err.println("Failed to initialize logger: " + e.getMessage());
         }
     }
 
